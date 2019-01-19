@@ -3,7 +3,7 @@ name = "zabbix-utils"
 version = "0.1.0"
 description = "zabbix utils"
 authors = ["李文军 <liwenjun@21cn.com>"]
-categories = ["zabbix", "proxy", "monitor"]
+categories = ["development-tools"]
 edition = "2018"
 
 [dependencies]
