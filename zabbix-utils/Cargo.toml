@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "zabbix utils"
 authors = ["李文军 <liwenjun@21cn.com>"]
 categories = ["development-tools"]
+license = "MIT"
 edition = "2018"
 
 [dependencies]

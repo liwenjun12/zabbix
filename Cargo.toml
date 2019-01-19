@@ -3,7 +3,7 @@ name = "zabbix"
 version = "0.1.0"
 description = "zabbix"
 authors = ["李文军 <liwenjun@21cn.com>"]
-categories = ["zabbix", "monitor"]
+categories = ["development-tools"]
 license = "MIT"
 edition = "2018"
 
