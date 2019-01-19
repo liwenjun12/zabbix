@@ -1,0 +1,11 @@
+[package]
+name = "zabbix-utils"
+version = "0.1.0"
+description = "zabbix utils"
+authors = ["李文军 <liwenjun@21cn.com>"]
+categories = ["zabbix", "proxy", "monitor"]
+edition = "2018"
+
+[dependencies]
+#log = "0.4.6"
+humantime = "1.2.0"

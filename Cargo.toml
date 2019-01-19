@@ -1,0 +1,23 @@
+[package]
+name = "zabbix"
+version = "0.1.0"
+description = "zabbix"
+authors = ["李文军 <liwenjun@21cn.com>"]
+categories = ["zabbix", "monitor"]
+license = "MIT"
+edition = "2018"
+
+[workspace]
+members = [
+  "./",
+  "zabbix-utils",
+  "zabbix-proxy",
+  #"zabbix-agent",
+  #"zabbix-sender",
+]
+
+[dependencies]
+failure = "0.1.5"
+log = "0.4.6"
+byteorder = "1.2.7"
+#pretty-hex = "0.1.0"
