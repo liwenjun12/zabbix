@@ -1,7 +1,11 @@
+//!
+//!
 use chrono::prelude::*;
 use serde_json::Value;
 use std::collections::HashMap;
 
+///
+///
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ZabbixRequest {
     request: &'static str,
@@ -31,7 +35,9 @@ impl ZabbixRequest {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]//, PartialEq)]
+///
+///
+#[derive(Serialize, Deserialize, Debug, Clone)] //, PartialEq)]
 pub struct ZabbixMetric {
     pub host: String,
     pub key: String,
@@ -55,6 +61,8 @@ impl ZabbixMetric {
     }
 }
 
+///
+///
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ZabbixDiscovery {
     data: Vec<HashMap<String, String>>,
@@ -83,6 +91,8 @@ impl ZabbixDiscovery {
     }
 }
 
+///
+///
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ZabbixHost {
     host: String,

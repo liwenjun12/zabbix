@@ -1,12 +1,5 @@
 use serde_json::Value;
 use std::collections::{HashMap, HashSet};
-use zabbix_utils::trans;
-
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub enum ProxyResponse {
-    RESPONSE(Response),
-    CONFIG(Value),
-}
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Response {
@@ -20,9 +13,7 @@ impl Response {
     }
 
     pub fn ok(&self) -> bool {
-        (self.total_cnt() > 0)
-            && (self.failed_cnt() == 0)
-            && (self.processed_cnt() == self.total_cnt())
+        (self.failed_cnt() == 0) && (self.processed_cnt() == self.total_cnt())
     }
 
     pub fn processed_cnt(&self) -> i32 {
@@ -61,23 +52,16 @@ impl Response {
         -1.0
     }
 
-    //{ response: "success", info: Some("processed: 0; failed: 14; total: 14; seconds spent: 0.000172") }
     fn get_value_from_info(&self, name: &str) -> Option<String> {
+        //{ response: "success", info: Some("processed: 6; failed: 0; total: 6; seconds spent: 0.000172") }
         let reg = regex::Regex::new(r"processed: (?P<processed>\d+); failed: (?P<failed>\d+); total: (?P<total>\d+); seconds spent: (?P<seconds_spent>\d.\d+)").unwrap();
-        /*
-        match &self.info {
-            Some(v) => match reg.captures(v) {
-                Some(x) => Some(x[name].to_string()),
-                None => None,
-            },
-            None => None,
-        }
-        */
+
         if let Some(v) = &self.info {
             if let Some(x) = reg.captures(v) {
                 return Some(x[name].to_string());
             }
         }
+
         None
     }
 }
@@ -146,10 +130,22 @@ impl Item {
     }
 }
 
+fn trans(input: &str) -> u32 {
+    if let Ok(result) = input.parse() {
+        return result;
+    }
+
+    if let Ok(x) = input.to_lowercase().parse::<humantime::Duration>() {
+        return x.as_secs() as u32;
+    }
+
+    0
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn test_item_from() {
         let mut data: Vec<HashMap<String, Value>> = vec![];
@@ -162,7 +158,7 @@ mod tests {
 
             data.push(vikings);
         }
-        
+
         //let compress = ["[", "_"];
         let compress = ["["];
 
@@ -199,4 +195,14 @@ mod tests {
         };
         assert!(!resp2.ok());
     }
+    #[test]
+    fn test_trans() {
+        assert_eq!(trans("15"), 15);
+        assert_eq!(trans("15s"), 15);
+        assert_eq!(trans("15S"), 15);
+        assert_eq!(trans("5m"), 300);
+        assert_eq!(trans("2h"), 7200);
+        assert_eq!(trans("1d"), 86400);
+    }
+
 }

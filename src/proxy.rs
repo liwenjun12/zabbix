@@ -1,25 +1,25 @@
 //! 基于 rust 实现的 zabbix proxy，实现了基本的代理功能。
 //!
-#[macro_use]
-extern crate serde_derive;
+use super::Result;
 
-#[macro_use]
-extern crate log;
+use super::protocol::ZabbixProtocol;
 
-use failure::Error;
+use super::request::{ZabbixHost, ZabbixMetric, ZabbixRequest};
 
-type Result<T> = std::result::Result<T, Error>;
-
-mod request;
-pub use self::request::{ZabbixDiscovery, ZabbixHost, ZabbixMetric, ZabbixRequest};
-
-mod response;
-pub use self::response::{Host, Item, ProxyResponse, Response};
+use super::response::{Host, Item, Response};
 
 use serde_json::Value;
 use std::collections::{HashMap, HashSet};
-use zabbix::ZabbixProtocol;
 
+#[derive(Serialize, Deserialize, Debug, Clone)]
+enum ProxyResponse {
+    RESPONSE(Response),
+    CONFIG(Value),
+}
+
+/// zabbix proxy
+/// 实现了 proxy 的基本功能
+///
 #[derive(Debug, Clone)]
 pub struct ZabbixProxy {
     name: String,
@@ -93,14 +93,6 @@ impl ZabbixProxy {
     /// 向服务端发送历史数据
     ///
     pub fn send_data(&self, data: &[ZabbixMetric]) -> Result<bool> {
-        trace!("request = {:?}", Self::HISTORY_DATA);
-        if !data.is_empty() {
-            trace!("key[0] = {:?}", &data[0].key);
-            trace!("host[0] = {:?}", &data[0].host);
-            trace!("data[0] = {:?}", &data[0].value);
-        } else {
-            trace!("NODATA");
-        }
         let data = serde_json::to_value(data)?;
         let req = ZabbixRequest::new(Self::HISTORY_DATA, &self.name, data);
         if let Ok(r) = self.send_request(&req, false) {
