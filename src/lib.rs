@@ -15,7 +15,7 @@ use failure::Error;
 type Result<T> = std::result::Result<T, Error>;
 
 /// 定义了 zabbix server 的地址和端口
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ZabbixProtocol {
     server: String,
     port: u16,
