@@ -20,7 +20,7 @@ use serde_json::Value;
 use std::collections::{HashMap, HashSet};
 use zabbix::ZabbixProtocol;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub struct ZabbixProxy {
     name: String,
     proto: ZabbixProtocol,

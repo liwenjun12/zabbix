@@ -1,6 +1,6 @@
 [package]
 name = "zabbix"
-version = "0.1.0"
+version = "0.1.1"
 description = "zabbix"
 authors = ["李文军 <liwenjun@21cn.com>"]
 categories = ["development-tools"]
