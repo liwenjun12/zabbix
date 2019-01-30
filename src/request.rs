@@ -1,5 +1,4 @@
 //!
-//!
 use chrono::prelude::*;
 use serde_json::Value;
 use std::collections::HashMap;
@@ -31,7 +30,7 @@ impl ZabbixRequest {
     }
 
     pub fn str(&self) -> String {
-        serde_json::to_string(&self).unwrap_or_else(|_| "{}".to_string())
+        serde_json::to_string(&self).unwrap_or_else(|_| "[]".to_string())
     }
 }
 
@@ -103,8 +102,8 @@ pub struct ZabbixHost {
 }
 
 impl ZabbixHost {
-    pub fn new(host: String) -> Self {
-        // let host = String::from(host);
+    pub fn new(host: &str) -> Self {
+        let host = String::from(host);
         let host_metadata = "DBMP";
         let ip = "127.0.0.1";
         let port = 10050;
@@ -135,8 +134,8 @@ mod tests {
 
         //hosts: Vec<ZabbixHost>
         let hosts = [
-            ZabbixHost::new("host1".to_string()),
-            ZabbixHost::new("host2".to_string()),
+            ZabbixHost::new("host1"),
+            ZabbixHost::new("host2"),
         ];
         let hosts =
             serde_json::to_value(hosts).unwrap_or_else(|_| Value::String("NOHOST".to_string()));

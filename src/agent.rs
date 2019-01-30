@@ -1,4 +1,4 @@
-//! 基于 rust 实现的 zabbix proxy，实现了基本的代理功能。
+//! zabbix agent
 //!
 use super::protocol::ZabbixProtocol;
 

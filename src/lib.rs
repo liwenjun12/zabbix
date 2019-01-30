@@ -25,10 +25,10 @@ mod request;
 pub use self::request::{ZabbixDiscovery, ZabbixHost, ZabbixMetric, ZabbixRequest};
 
 mod response;
-pub use self::response::{Host, Item, Response};
+pub use self::response::Response;
 
 mod proxy;
-pub use self::proxy::ZabbixProxy;
+pub use self::proxy::{ZabbixProxy, Host, HostItem, Item, ItemHost};
 
 mod agent;
 pub use self::agent::ZabbixAgent;

@@ -1,4 +1,4 @@
-//!
+//! zabbix sender
 //!
 use super::protocol::ZabbixProtocol;
 
